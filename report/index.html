@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- ICON -->
+    <link rel="icon" href="../assets/favicon.ico" sizes="32x32" type="image/vnd.microsoft.icon">
+    <!-- TITLE -->
+    <title>Solomon Islands - DSS Report</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- CHARTJS -- https://www.chartjs.org/ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <!-- ArcGIS API for JavaScript-->
+    <link href="https://js.arcgis.com/4.28/@arcgis/core/assets/esri/themes/light/main.css" rel="stylesheet" />
+    <script src="https://js.arcgis.com/4.28/"></script>
+
+    <!-- APPLICATION -->
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <!-- <script type="module" src="./main.js"></script> -->
+    <script src="./main.js" defer></script>
+
+</head>
+
+<body>
+    <div class="controls-container">
+        <button id="btnPrint">Print Report</button>
+    </div>
+    <div class="main-container">
+        <div class="page-container">
+
+            <div class="page-inner">
+                <div class="content-row">
+                    <div class="content-row">
+                        <img src="../assets/Coat_of_arms_of_the_Solomon_Islands.svg" alt="Coat of arms of Solomon Islands" style="width:42px;height:50px;">
+                        <img src="../assets/UNITAR_UNOSAT_Standard_Blue_Version.svg" alt="UNITAR UNOSAT" width="300">
+                    </div>
+                    <h4 id="today-date"></h4>
+                </div>
+                <h1 id="admin-node"></h1>
+                <h2>Summary</h2>
+                <p>
+                    The Risk Index rating for <b><span id="admin-sum-name"></span></b> is currently assessed as <b><span id="summary-class"></span></b>
+                    with a score of <b><span id="summary-score"></span> out of 10.</b> This rating reflects the level of risk within the region when
+                    compared to other areas in country.</p>
+                <p>
+                    The Risk Index is calculated based on three dimensions including exposure to hazard, vulnerability and lack of coping capacity dimensions which provide insight into the factors
+                    contributing to this rating.
+                </p>
+                <div>
+                    <canvas id="dimensions-bar-chart"></canvas>
+                </div>
+                <p>
+                    The Risk Index is a composite indicator, combining many
+                    indicators into three dimensions of risk: Hazards (events that could occur) and exposure to them,
+                    Vulnerability (the susceptibility of communities to those hazards) and the Lack of coping capacity
+                    (lack of resources that can alleviate the impact).
+                </p>
+                <div class="map-container">
+                    <div id="viewRisk" class="map-node"></div>
+                    <div id="legendRisk" class="legend-node"></div>
+                </div>
+                <p>
+                    The Risk index is assigned a score ranging from 0.0 to 10.0. Lower values on the index indicate a
+                    favorable performance, while higher values signify a less effective performance in terms of handling
+                    humanitarian risk. This concept of higher values indicating a worse performance is consistently
+                    applied at the dimension, category, and component levels as well.
+                </p>
+
+                <hr>
+                <!-- EXPOSURE TO HAZARD -->
+                <h2>Exposure to Hazard</h2>
+                <p>
+                    The exposure to hazard risk index rating is <b><span id="hz-class"></span> (<span id="hz-risk-score"></span>)</b> for <b><span id="hz-admin-name"></span></b>
+                    when compared to the rest of the country.
+                </p>
+                <div class="map-container">
+                    <div id="viewHZ" class="map-node"></div>
+                    <div id="legendHZ" class="legend-node"></div>
+                </div>
+                <p>
+                    The Exposure to hazrd dimension encompasses the likelihood of physical exposure linked to particular
+                    hazards.
+                    In the absence of physical exposure, no risk exists, regardless of the severity of the hazardous
+                    event.
+                    Consequently, the Exposure to hazard dimension combines both aspects and signifies the burden
+                    that a community must manage when confronted with a hazardous event.
+                </p>
+                <div>
+                    <canvas id="hz-chart-node"></canvas>
+                </div>
+                <br>
+                <table>
+                    <tr>
+                      <th>Hazard Indicator</th>
+                      <th>Risk Index Score</th>
+                      <th>Source</th>
+                    </tr>
+                    <tr>
+                      <td id="hz-name1"></td>
+                      <td id="hz-score1">-.-</td>
+                      <td>UNOSAT - Derived from FABDEM using Height Above Nearest Drainage (HAND)</td>
+                    </tr>
+                    <tr>
+                      <td id="hz-name2"></td>
+                      <td id="hz-score2">-.-</td>
+                      <td>UNOSAT - Derived from FABDEM</td>
+                    </tr>
+                    <tr>
+                      <td id="hz-name3"></td>
+                      <td id="hz-score3">-.-</td>
+                      <td>Pacific Risk Information System</td>
+                    </tr>
+                    <tr>
+                      <td id="hz-name4"></td>
+                      <td id="hz-score4">-.-</td>
+                      <td>Pacific Risk Information System</td>
+                    </tr>
+                    <tr>
+                      <td id="hz-name5"></td>
+                      <td id="hz-score5">-.-</td>
+                      <td>Global Assessment Report 2015</td>
+                    </tr>
+                    <tr>
+                      <td id="hz-name6"></td>
+                      <td id="hz-score6">-.-</td>
+                      <td>UNOSAT - Derived from FABDEM</td>
+                    </tr>
+                </table>
+
+                <hr>
+
+                <!-- VULNERABILITY -->
+                <h2>Vulnerability</h2>
+                <p>
+                    The vulnerability risk index rating is <b><span id="vu-class"></span> (<span id="vu-risk-score"></span>)</b> for <b><span id="vu-admin-name"></span></b>
+                    when compared to the rest of the country.
+                </p>
+                <div class="map-container">
+                    <div id="viewVU" class="map-node"></div>
+                    <div id="legendVU" class="legend-node"></div>
+                </div>
+                <p>
+                    The Vulnerability dimension focuses on the inherent characteristics of a population at risk, making
+                    them prone to the adverse impacts of hazards. This assessment relies on indicators independent of
+                    specific hazards. Consequently, the Vulnerability dimension encapsulates the economic, political,
+                    and social attributes of a community that may become destabilized in the event of a hazard. Physical
+                    vulnerability, a trait dependent on the specific hazard, is addressed separately within the Hazard &
+                    Exposure dimension.
+                </p>
+                <div>
+                    <canvas id="vu-chart-node"></canvas>
+                </div>
+                <br>
+                <table>
+                    <tr>
+                      <th>Vulnerability Indicator</th>
+                      <th>Risk Index Score</th>
+                      <th>Source</th>
+                    </tr>
+                    <tr>
+                      <td id="vu-name1"></td>
+                      <td id="vu-score1">-.-</td>
+                      <td>Poverty incidence - Solomon Islands Poverty Maps based on the 2012/13 Household Income and Expenditure Survey</td>
+                    </tr>
+                    <tr>
+                      <td id="vu-name2"></td>
+                      <td id="vu-score2">-.-</td>
+                      <td>GINI Index - Solomon Islands Poverty Maps based on the 2012/13 Household Income and Expenditure Survey</td>
+                    </tr>
+                    <tr>
+                      <td id="vu-name3"></td>
+                      <td id="vu-score3">-.-</td>
+                      <td>Remittances - 2019 National Population and Housing Census <br> Total Capital Stock m USD - Gridded global datasets for Gross Domestic Product and Human Development Index 2011</td>
+                    </tr>
+                    <tr>
+                      <td id="vu-name4"></td>
+                      <td id="vu-score4">-.-</td>
+                      <td>2019 National Population and Housing Census - The Solomon Islands National Statistics Office (SINSO)</td>
+                    </tr>
+                    <tr>
+                      <td id="vu-name5">Disability Person</td>
+                      <td id="vu-score5">Not Applicable</td>
+                      <td>2019 National Population and Housing Census - The Solomon Islands National Statistics Office (SINSO)</td>
+                    </tr>
+                    <tr>
+                      <td id="vu-name6"></td>
+                      <td id="vu-score6">-.-</td>
+                      <td>2019 National Population and Housing Census - The Solomon Islands National Statistics Office (SINSO)</td>
+                    </tr>
+                </table>
+                <hr>
+
+                <!-- LACK OF COPING CAPACITY -->
+                <h2>Lack of Coping Capacity</h2>
+                <p>
+                    The lack of coping capacity risk index rating is <b><span id="cc-class"></span> (<span id="cc-risk-score"></span>)</b> for <b><span id="cc-admin-name"></span></b>
+                    when compared to the rest of the country.
+                </p>
+                <div class="map-container">
+                    <div id="viewCC" class="map-node"></div>
+                    <div id="legendCC" class="legend-node"></div>
+                </div>
+                <p>
+                    The Coping Capacity Deficiency dimension assesses an area's capacity to manage disasters through
+                    formal, organized activities, the efforts of the country's government, and the existing
+                    infrastructure. These factors collectively contribute to mitigating disaster risk.
+                </p>
+                <div>
+                    <canvas id="cc-chart-node"></canvas>
+                </div>
+                <br>
+                <table>
+                    <tr>
+                      <th>Lack of Coping Capacity Indicator</th>
+                      <th>Risk Index Score</th>
+                      <th>Source</th>
+                    </tr>
+                    <tr>
+                      <td id="cc-name1"></td>
+                      <td id="cc-score1">-.-</td>
+                      <td>2019 National Population and Housing Census - The Solomon Islands National Statistics Office (SINSO)</td>
+                    </tr>
+                    <tr>
+                      <td id="cc-name2"></td>
+                      <td id="cc-score2">-.-</td>
+                      <td>2019 National Population and Housing Census - The Solomon Islands National Statistics Office (SINSO)</td>
+                    </tr>
+                    <tr>
+                      <td id="cc-name3">Mobile Cellular</td>
+                      <td id="cc-score3">Not Applicable</td>
+                      <td>2019 National Population and Housing Census - The Solomon Islands National Statistics Office (SINSO)</td>
+                    </tr>
+                    <tr>
+                      <td id="cc-name4"></td>
+                      <td id="cc-score4">-.-</td>
+                      <td>UNOSAT - Derived from OpenStreetMap 2024</td>
+                    </tr>
+                    <tr>
+                      <td id="cc-name5"></td>
+                      <td id="cc-score5">-.-</td>
+                      <td>2019 National Population and Housing Census - The Solomon Islands National Statistics Office (SINSO)</td>
+                    </tr>
+                    <tr>
+                      <td id="cc-name6"></td>
+                      <td id="cc-score6">-.-</td>
+                      <td>2019 National Population and Housing Census - The Solomon Islands National Statistics Office (SINSO)</td>
+                    </tr>
+                    <tr>
+                      <td id="cc-name7"></td>
+                      <td id="cc-score7">-.-</td>
+                      <td>2009 National Population and Housing Census - The Solomon Islands National Statistics Office (SINSO)</td>
+                    </tr>
+                    <tr>
+                      <td id="cc-name8"></td>
+                      <td id="cc-score8">-.-</td>
+                      <td>UNOSAT - Derived from OpenStreetMap 2024</td>
+                    </tr>
+                </table>
+                <hr>
+
+                <!-- END SECTION -->
+                <h2>Disclaimer</h2>
+                <p>
+                    This analytics is based on preliminary sub-national INFORM index developed by the United Nations Satellite Centre (UNOSAT).
+                    This composite indicator is yet to be validated and approved by responsible government ministry. Please use with caution!
+                </p>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
