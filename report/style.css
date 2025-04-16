@@ -1,0 +1,112 @@
+/* Base styles from application.css */
+@import "../css/application.css";
+
+/* Report-specific styles */
+.report-container {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 10mm;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.report-header {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--calcite-color-brand);
+}
+
+.logo-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.logo {
+    height: 50px;
+    width: auto;
+}
+
+.report-meta {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.report-controls {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.map-container {
+    display: flex;
+    margin: 1rem 0;
+    gap: 1rem;
+}
+
+.map-node {
+    flex: 2;
+    height: 300px;
+    border: 1px solid var(--calcite-color-border-2);
+}
+
+.legend-node {
+    flex: 1;
+    height: 300px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    border: 1px solid var(--calcite-color-border-2);
+}
+
+.chart-container {
+    width: 100%;
+    height: 300px;
+    margin: 1rem 0;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.report-table th, 
+.report-table td {
+    padding: 0.5rem;
+    border: 1px solid var(--calcite-color-border-2);
+    text-align: left;
+}
+
+.report-table th {
+    background-color: var(--calcite-color-foreground-2);
+    color: var(--calcite-color-text-1);
+}
+
+@media print {
+    .report-controls {
+        display: none;
+    }
+    
+    .report-container {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+    }
+    
+    .map-node, .legend-node {
+        page-break-inside: avoid;
+    }
+    
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+}
